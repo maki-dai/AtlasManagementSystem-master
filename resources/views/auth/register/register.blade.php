@@ -155,15 +155,7 @@
           <input type="radio" name="role" class="other_role role" value="4">
           <label style="font-size:13px" class="other_role">生徒</label>
         </div>
-        <div class="select_teacher d-none">
-          <label class="d-block m-0" style="font-size:13px">選択科目</label>
-          @foreach($subjects as $subject)
-          <div class="">
-            <input type="checkbox" name="subject[]" value="{{ $subject->id }}">
-            <label>{{ $subject->subject }}</label>
-          </div>
-          @endforeach
-        </div>
+<!-- 消したとこあり -->
         <div class="mt-3">
           <label class="d-block m-0" style="font-size:13px">パスワード</label>
           <div class="border-bottom border-primary">
