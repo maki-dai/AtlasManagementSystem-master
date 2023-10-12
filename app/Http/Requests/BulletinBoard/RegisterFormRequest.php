@@ -24,17 +24,17 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
-          'over_name'=>'required|',
-          'under_name'=>'required|',
-          'over_name_kane'=>'required|',
-          'under_name_kane'=>'required|',
-          'mail_address'=>'required|',
-          'sex'=>'required|',
-          'old_year'=>'required|',
-          'old_month'=>'required|',
-          'old_day'=>'required|',
-          'role'=>'required|',
-          'password'=>'required|',
+          // 'over_name'=>'required|',
+          // 'under_name'=>'required|',
+          // 'over_name_kane'=>'required|',
+          // 'under_name_kane'=>'required|',
+          // 'mail_address'=>'required|',
+          // 'sex'=>'required|',
+          // 'old_year'=>'required|',
+          // 'old_month'=>'required|',
+          // 'old_day'=>'required|',
+          // 'role'=>'required|',
+          // 'password'=>'required|',
  ];
     }
             // フォームリクエストでのバリデーション
