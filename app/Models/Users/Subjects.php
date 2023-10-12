@@ -16,6 +16,10 @@ class Subjects extends Model
     ];
 
     public function users(){
+<<<<<<< HEAD
         return $this->belongsToMany('App\Models\Users','subject_users','subject_id','user_id');// リレーションの定義
+=======
+        return;// リレーションの定義
+>>>>>>> parent of fe68fac (SubjectとUserのリレーションまで完了)
     }
 }

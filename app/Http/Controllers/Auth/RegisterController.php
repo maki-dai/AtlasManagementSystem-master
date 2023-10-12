@@ -53,9 +53,8 @@ class RegisterController extends Controller
      */
     public function registerView()
     {
-        // $subjects = Subjects::all();
-        return view('auth.register.register');
-        // compact('subjects')
+        $subjects = Subjects::all();
+        return view('auth.register.register', compact('subjects'));
     }
 
     public function registerPost(Request $request)
@@ -67,7 +66,7 @@ class RegisterController extends Controller
             $old_day = $request->old_day;
             $data = $old_year . '-' . $old_month . '-' . $old_day;
             $birth_day = date('Y-m-d', strtotime($data));
-            // $subjects = $request->subject;
+            $subjects = $request->subject;
 
             $user_get = User::create([
                 'over_name' => $request->over_name,
@@ -81,7 +80,7 @@ class RegisterController extends Controller
                 'password' => bcrypt($request->password)
             ]);
             $user = User::findOrFail($user_get->id);
-            // $user->subjects()->attach($subjects);
+            $user->subjects()->attach($subjects);
             DB::commit();
             return view('auth.login.login');
         }catch(\Exception $e){
@@ -89,4 +88,8 @@ class RegisterController extends Controller
             return redirect()->route('loginView');
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> parent of fe68fac (SubjectとUserのリレーションまで完了)
