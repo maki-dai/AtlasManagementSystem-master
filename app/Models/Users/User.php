@@ -68,11 +68,7 @@ class User extends Authenticatable
     }
 
     public function subjects(){
-<<<<<<< HEAD
-        return $this->belongsToMany('App\Models\Subjects','subject_users','user_id','subject_id');// リレーションの定義
-=======
-        return ;// リレーションの定義
->>>>>>> parent of fe68fac (SubjectとUserのリレーションまで完了)
+        return $this->belongsToMany('App\Models\Users\Subjects','subject_users','user_id','subject_id');// リレーションの定義
     }
 
     // いいねしているかどうか

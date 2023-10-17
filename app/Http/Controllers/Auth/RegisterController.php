@@ -88,8 +88,4 @@ class RegisterController extends Controller
             return redirect()->route('loginView');
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> parent of fe68fac (SubjectとUserのリレーションまで完了)

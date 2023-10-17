@@ -45,7 +45,11 @@
       </div>
       <div>
         @if($user->role == 4)
-        <span>選択科目 :</span>
+        <span>選択科目 :
+        </span>
+         @foreach($user->subjects as $subject)
+        <span>{{ $subject->subject }}</span>
+        @endforeach
         @endif
       </div>
     </div>
@@ -57,7 +61,7 @@
         <input type="text" class="free_word" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
       </div>
       <div>
-        <lavel>カテゴリ</lavel>
+        <label>カテゴリ</label>
         <select form="userSearchRequest" name="category">
           <option value="name">名前</option>
           <option value="id">社員ID</option>

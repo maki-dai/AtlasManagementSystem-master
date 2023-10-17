@@ -12,7 +12,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-<<<<<<< HEAD
         User::create([
         'over_name' => '姓',
         'under_name' =>'名',
@@ -23,8 +22,7 @@ class UsersTableSeeder extends Seeder
         'birth_day'=>'1990-01-01',
         'role'=>'4',
         'password'=> bcrypt('seimei01'),
-=======
->>>>>>> parent of fe68fac (SubjectとUserのリレーションまで完了)
+        ]);
 
     }
 }

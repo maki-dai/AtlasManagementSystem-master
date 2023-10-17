@@ -24,17 +24,17 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
-          // 'over_name'=>'required|',
-          // 'under_name'=>'required|',
-          // 'over_name_kane'=>'required|',
-          // 'under_name_kane'=>'required|',
-          // 'mail_address'=>'required|',
-          // 'sex'=>'required|',
+          'over_name'=>'required|string|max:10',
+          'under_name'=>'required|string|max:10',
+          'over_name_kane'=>'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
+          'under_name_kane'=>'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
+          'mail_address'=>'required|mail|unique:users|max:100',
+          'sex'=>'required|regex:/^[男性|女性]+$/u',
           // 'old_year'=>'required|',
           // 'old_month'=>'required|',
           // 'old_day'=>'required|',
-          // 'role'=>'required|',
-          // 'password'=>'required|',
+          'role'=>'required|regex:/^[講師(国語)|講師(数学)|教師(英語)|生徒]+$/u',
+          'password'=>'required|between:8,30|confirmed',
  ];
     }
             // フォームリクエストでのバリデーション
@@ -73,6 +73,7 @@ class PostFormRequest extends FormRequest
 
     public function messages(){
         return [
+// ここに各エラー文記述
 
             // 'post_title.min' => 'タイトルは4文字以上入力してください。',
             // 'post_title.max' => 'タイトルは50文字以内で入力してください。',
