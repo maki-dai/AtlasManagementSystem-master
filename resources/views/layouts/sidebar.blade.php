@@ -25,8 +25,10 @@
 
 <!-- 講師にのみ表示部分 -->
 <!-- usersのroleが4（生徒）以外だったら表示 -->
+      @if(!(Auth::user()->role == 4))
       <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">スクール予約確認</a></p>
       <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">スクール枠登録</a></p>
+      @endif
 <!--  -->
       <p><a href="{{ route('post.show') }}">掲示板</a></p>
       <p><a href="{{ route('user.show') }}">ユーザー検索</a></p>

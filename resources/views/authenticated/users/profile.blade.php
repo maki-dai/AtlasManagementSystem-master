@@ -16,6 +16,7 @@
       </div>
       <div class="">
         @can('admin')
+        <!-- 生徒のときのみ に改修？if $user->role == 4) -->
         <span class="subject_edit_btn">選択科目の編集</span>
         <div class="subject_inner">
           <form action="{{ route('user.edit') }}" method="post">
