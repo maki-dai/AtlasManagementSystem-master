@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Users\User;
 
+
 class UsersTableSeeder extends Seeder
 {
     /**
