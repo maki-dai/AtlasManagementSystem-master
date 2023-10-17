@@ -24,7 +24,7 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'post_category_id' => 'required|',
+            // 'post_category_id' => 'required|',
             // 登録されてるサブカテゴリーかどうか
             'post_title' => 'required|string|max:100',
             'post_body' => 'required|string|max:5000',
