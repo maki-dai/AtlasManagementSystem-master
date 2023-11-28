@@ -40,13 +40,15 @@ class CalendarView{
         $startDay = $this->carbon->copy()->format("Y-m-01");
         $toDay = $this->carbon->copy()->format("Y-m-d");
 
+        // 過去日色変更ここっぽい　CalendarSettingViewのクラス名に変更→スクール予約画面開いて要確認！
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-          $html[] = '<td class="calendar-td">';
+          $html[] = '<td class="past-day border">';
         }else{
-          $html[] = '<td class="calendar-td '.$day->getClassName().'">';
+          $html[] = '<td class="border '.$day->getClassName().'">';
         }
         $html[] = $day->render();
 
+// 予約した
         if(in_array($day->everyDay(), $day->authReserveDay())){
           $reservePart = $day->authReserveDate($day->everyDay())->first()->setting_part;
           if($reservePart == 1){
@@ -56,16 +58,32 @@ class CalendarView{
           }else if($reservePart == 3){
             $reservePart = "リモ3部";
           }
+
+
+          // 予約した中で過去日　参加した部表示
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
+            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">'.$reservePart.'</p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+            // 過去日じゃない予約した日　表示（キャンセルボタン）
           }else{
-            $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+            // キャンセルボタン
+            $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" onclick="return confirm(キャンセルしてよろしいですか？)" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
+            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';// →ここdeletePartsじゃね？
           }
+          // 予約してない日
         }else{
+          // ※if文いれちゃうとなぜか値送るときにエラーになる、いれなきゃ大丈夫
+
+          // // 予約してない過去日
+          // if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+          // $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">受付終了</p>';
+          // // 予約してない未来日　選択表示
+          // }else{
           $html[] = $day->selectPart($day->everyDay());
         }
+
+
+
         $html[] = $day->getDate();
         $html[] = '</td>';
       }

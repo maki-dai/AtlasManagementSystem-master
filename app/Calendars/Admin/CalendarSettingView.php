@@ -39,6 +39,7 @@ class CalendarSettingView{
         $startDay = $this->carbon->format("Y-m-01");
         $toDay = $this->carbon->format("Y-m-d");
 
+        // 過去日の色変更ここっぽい？！
        if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
           $html[] = '<td class="past-day border">';
         }else{

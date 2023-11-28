@@ -11,8 +11,11 @@ use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
 use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
-use App\Http\Requests\BulletinBoard\CategoryFormRequest;
+use App\Http\Requests\BulletinBoard\MainCategoryFormRequest;
+use App\Http\Requests\BulletinBoard\SubCategoryFormRequest;
 use Auth;
+
+
 
 class PostsController extends Controller
 {
@@ -22,9 +25,12 @@ class PostsController extends Controller
         $like = new Like;
         $post_comment = new Post;
         if(!empty($request->keyword)){
-            $posts = Post::with('user', 'postComments')
+            $posts = Post::with('user', 'postComments','subCategories')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
+            ->orWhere('post', 'like', '%'.$request->keyword.'%')
+            //サブカテゴリ完全一致検索記述
+            // ->orWhere('sub_category',)
+            ->get();
         }else if($request->category_word){
             $sub_category = $request->category_word;
             $posts = Post::with('user', 'postComments')->get();
@@ -46,17 +52,28 @@ class PostsController extends Controller
 
     public function postInput(){
         $main_categories = MainCategory::get();
-        return view('authenticated.bulletinboard.post_create', compact('main_categories'));
+        $sub_categories = SubCategory::with('mainCategory')->get();
+        return view('authenticated.bulletinboard.post_create', compact('main_categories','sub_categories'));
     }
 
-    // 投稿できるかチェック
-    // フォームリクエストうまくいってない可能性
+
     public function postCreate(PostFormRequest $request){
+
         $post = Post::create([
             'user_id' => Auth::id(),
             'post_title' => $request->post_title,
-            'post' => $request->post_body
+            'post' => $request->post_body,
         ]);
+        $sub_category_id = $request->post_category_id;
+
+        $sub_category = SubCategory::find($sub_category_id);
+        $sub_category->posts()->attach($post->id);
+
+         // postと紐づくsubcategoryにid入れてリレーション成立へ？
+        // post_sub_categories 中間テーブルのsub_category_idにインプットしたい
+        // $sub_categories->post_id = $post->id;
+        // $sub_categories = subCategories()->attach($post_category_id);
+
         return redirect()->route('post.show');
     }
 
@@ -72,15 +89,16 @@ class PostsController extends Controller
         Post::findOrFail($id)->delete();
         return redirect()->route('post.show');
     }
-    // ※CategoryFormRequest
-    public function mainCategoryCreate(Request $request){
-        MainCategory::create(['main_category' => $request->main_category_name]);
+    // メインカテゴリ
+    public function mainCategoryCreate(MainCategoryFormRequest $request){
+        MainCategory::create(['main_category' => $request->main_category]);
         return redirect()->route('post.input');
     }
-     public function subCategoryCreate(Request $request){
+    // サブカテゴリ
+     public function subCategoryCreate(SubCategoryFormRequest $request){
         SubCategory::create([
             'main_category_id' => $request->main_category_id,
-            'sub_category' =>  $request->sub_category_name
+            'sub_category' =>  $request->sub_category
         ]);
         return redirect()->route('post.input');
     }

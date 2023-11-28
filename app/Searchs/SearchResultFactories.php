@@ -7,20 +7,29 @@ class SearchResultFactories{
 
   // 改修課題：選択科目の検索機能
   public function initializeUsers($keyword, $category, $updown, $gender, $role, $subjects){
+     // カテゴリー　名前のとき
     if($category == 'name'){
+      //  教科がnullのとき
       if(is_null($subjects)){
         $searchResults = new SelectNames();
+
       }else{
         $searchResults = new SelectNameDetails();
       }
       return $searchResults->resultUsers($keyword, $category, $updown, $gender, $role, $subjects);
+
+      // カテゴリー　社員IDのとき
     }else if($category == 'id'){
+      //  教科がnullのとき
       if(is_null($subjects)){
         $searchResults = new SelectIds();
+
       }else{
         $searchResults = new SelectIdDetails();
       }
       return $searchResults->resultUsers($keyword, $category, $updown, $gender, $role, $subjects);
+
+       // カテゴリー　未選択のとき
     }else{
       $allUsers = new AllUsers();
     return $allUsers->resultUsers($keyword, $category, $updown, $gender, $role, $subjects);

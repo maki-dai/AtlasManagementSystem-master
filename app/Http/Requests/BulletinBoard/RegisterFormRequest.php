@@ -23,21 +23,78 @@ class RegisterFormRequest extends FormRequest
      */
     public function rules()
     {
+        // !!正規表現どうにかする！regaxは[]で囲った方がいい！
         return [
           'over_name'=>'required|string|max:10',
           'under_name'=>'required|string|max:10',
-          'over_name_kane'=>'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
-          'under_name_kane'=>'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
-          'mail_address'=>'required|mail|unique:users|max:100',
-          'sex'=>'required|regex:/^[男性|女性]+$/u',
-          // 'old_year'=>'required|',
-          // 'old_month'=>'required|',
-          // 'old_day'=>'required|',
-          'role'=>'required|regex:/^[講師(国語)|講師(数学)|教師(英語)|生徒]+$/u',
+          'over_name_kana'=> 'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
+          'under_name_kana'=> 'required|string|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u|max:30',
+          'mail_address'=>'required|email|unique:users|max:100',
+          'sex'=>'required|regex:/^[ 男性|女性|その他 ]+$/u',
+          'old'=>'date',
+          'old_year'=>'required_with:old_month,old_day',
+          'old_month'=>'required_with:old_year,old_day',
+          'old_day'=>'required_with:old_year,old_month',
+          // 'role'=>['required,regex:/^[講師(国語)|講師(数学)|教師(英語)|生徒]+$/u'],
           'password'=>'required|between:8,30|confirmed',
+
  ];
     }
-            // フォームリクエストでのバリデーション
+
+
+
+    public function messages(){
+        return [
+// ここに各エラー文記述　　
+
+           'over_name.required'=>'姓が未入力です。',
+           'over_name.string'=>'姓は文字列型で入力してください。',
+           'over_name.max'=>'姓は10文字以内で入力してください。',
+
+           'under_name.required'=>'名が未入力です。',
+           'under_name.string'=>'名は文字列型で入力してください。',
+           'under_name.max'=>'名は10文字以内で入力してください。',
+
+           'over_name_kana.required'=>'姓 カナが未入力です。',
+           'over_name_kana.string'=>'姓 カナは文字列型で入力してください。',
+           'over_name_kana.regex'=>'姓 カナはカタカナで入力してください。',
+           'over_name_kana.max'=>'姓 カナは30文字以内で入力してください。',
+
+           'under_name_kana.required'=>'名 カナが未入力です。',
+           'under_name_kana.string'=>'名 カナは文字列型で入力してください。',
+           'under_name_kana.regex'=>'名 カナはカタカナで入力してください。',
+           'under_name_kana.max'=>'名 カナは30文字以内で入力してください。',
+
+           'mail_address.required'=>'メールアドレスは未入力です。',
+           'mail_address.email'=>'メールアドレスはメール形式で入力してください。',
+           'mail_address.unique'=>'このメールアドレスは既に登録されています。',
+           'mail_address.max'=>'メールアドレスは100文字以内で入力してください。',
+
+           'sex.required'=>'性別が未選択です。',
+           'sex.regex'=>'性別は男性か女性かその他のみ選択可能です。',
+
+        //      'old'=>'date',
+        //   'old_year'=>'required_with:old_month,old_day',
+        //   'old_month'=>'required_with:old_year,old_day',
+        //   'old_day'=>'required_with:old_year,old_month',
+           'old.date'=>'生年月日は正しい日付で入力してください。',
+           'old_year.required'=>'生年月日が未入力です。',
+           'old_month.required'=>'生年月日が未入力です。',
+           'old_day.required'=>'生年月日が未入力です。',
+
+
+           'role.required'=>'権限は選択必須です',
+           'role.regex'=>'権限は講師(国語)、講師(数学)、教師(英語)、生徒のいずれかから選択してください。',
+
+           'password.required'=>'パスワードは入力必須です。',
+           'password.between'=>'パスワードは8文字から30文字の間で入力してください。',
+           'password.confirmed'=>'パスワードと確認用パスワードが一致していません。',
+
+        ];
+    }
+}
+
+ // フォームリクエストでのバリデーション
 // over_name	"・必須項目
 // ・文字列の型
 // ・10文字以下"
@@ -68,17 +125,3 @@ class RegisterFormRequest extends FormRequest
 // password	"・必須項目
 // ・8文字以上30文字以下
 // ・確認用と同じかどうか"
-
-
-
-    public function messages(){
-        return [
-// ここに各エラー文記述
-
-            // 'post_title.min' => 'タイトルは4文字以上入力してください。',
-            // 'post_title.max' => 'タイトルは50文字以内で入力してください。',
-            // 'post_body.min' => '内容は10文字以上入力してください。',
-            // 'post_body.max' => '最大文字数は500文字です。',
-        ];
-    }
-}
